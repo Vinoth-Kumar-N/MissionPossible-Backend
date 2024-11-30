@@ -2,16 +2,25 @@ require('dotenv').config();
 const express = require('express');
 const app = express();
 const cors = require('cors');
+const mongoose = require('mongoose');
+
+mongoose.connect(process.env.MONGO_URL);
+const db = mongoose.connection;
+db.on('connected' , () => {
+    console.log('Connected to MongoDB');
+})
+db.on('error', () => {
+    console.log('Error connecting to MongoDB');
+})
 
 app.use(cors({
-    origin: 'https://mission-possible-frontend.vercel.app', 
+    // origin: 'https://mission-possible-frontend.vercel.app', 
+    origin: 'http://localhost:5173', 
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     credentials: true
 }));
 
 app.use(express.json());
-
-const dbConn = require('./controller/databse');
 
 const port = process.env.PORT || 1111;
 
@@ -28,9 +37,3 @@ app.listen(port, () => {
 app.use('/user', require('./Routes/UserRegRoute'));
 
 
-
-// {
-//     origin: 'http://localhost:5173', // Allow requests from Vite
-//     methods: ['GET', 'POST', 'PUT', 'DELETE'],
-//     credentials: true
-// }

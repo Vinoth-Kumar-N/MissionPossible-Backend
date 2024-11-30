@@ -1,68 +1,35 @@
 const express = require('express');
-const UserRegModel = require('../models/UserRegSchema');
+const UserModel = require('../models/UserRegSchema')
+const AuthController = require('../controller/authController');
 
 const router = express.Router();
 
 
-router.get('/all', async (req, res) => {
-    try {
-        const result = await UserRegModel.find();
-        if (!result) {
-            res.status(500).json('No Users Found');
-        }
-        res.status(200).json(result);
-    } catch (error) {
-        res.status(500).json(error);
-    }
-})
-
-
-router.post('/register', async (req, res) => {
-    const { name, email, phone, password, repassword } = req.body;
-    try {
-        const temp = await UserRegModel.findOne({ email: req.body.email });
-        if (temp) {
-            return res.status(400).json({ message: 'User already exists' });
-        }
-
-        await UserRegModel.create(req.body);
-        return res.status(200).json({ message: 'User Registered Successfully' });
-    } catch (error) {
-        return res.status(500).json({ message: 'Internal Server Error' });
-    }
-});
-
-
-router.post('/login', async (req, res) => {
-    const {email, password} = req.body;
-    try {
-        const temp = await UserRegModel.findOne({email : email});
-        if(!temp){
-            return res.status(200).json({ message: "User does not Exist" });
-        }
-
-        if (password !== temp.password) {
-            return res.status(200).json({ message: "Incorrect Password" });
-        }
-
-        return res.status(200).json({ message: "Login Successful" });
-    } catch (error) {
-        return res.status(500).json({ message: 'Internal Server Error' });
-    }
-});
+router.get('/all', AuthController.showUsers);
+router.post('/register', AuthController.registerUser);
+router.post('/login', AuthController.loginUser);
 
 
 
 router.delete('/delete/:id', async (req, res) => {
     const id = req.params.id;
     try {
-        const currentrecord = await UserRegModel.findOne({ _id: id });
+        const currentrecord = await UserModel.findOne({ _id: id });
         if (!currentrecord) {
             res.status(400).json({ message: "record not found" });
         }
-        const currentdata = await UserRegModel.findByIdAndDelete(id);
+        const currentdata = await UserModel.findByIdAndDelete(id);
         res.status(200).json(currentdata);
 
+    } catch (error) {
+        res.status(500).json(error);
+    }
+})
+router.delete('/deleteAll', async (req, res) => {
+    try {
+        UserModel.deleteMany().then(() => {
+            res.status(200).json({ message: "All records deleted" });
+        })
     } catch (error) {
         res.status(500).json(error);
     }
