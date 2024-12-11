@@ -14,8 +14,8 @@ db.on('error', () => {
 })
 
 app.use(cors({
-    origin: 'https://mission-possible-frontend.vercel.app', 
-    // origin: 'http://localhost:5173', 
+    // origin: 'https://mission-possible-frontend.vercel.app', 
+    origin: 'http://localhost:5173', 
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     credentials: true
 }));
