@@ -4,17 +4,17 @@ require('dotenv').config();
 
 const secretKey = process.env.JWT_SECRET;
 
-async function showUsers(req, res){
+async function showUsers(req, res) {
     try {
         const users = await UserModel.find();
-        if(users.length === 0) return res.status(400).json({message: "No users Found"});
+        if (users.length === 0) return res.status(400).json({ message: "No users Found" });
         res.status(200).json(users);
     } catch (error) {
-        res.status(400).json({message: error.message});
+        res.status(400).json({ message: error.message });
     }
 }
 
-async function registerUser(req, res){
+async function registerUser(req, res) {
     try {
         const temp = await UserModel.findOne({ email: req.body.email });
         if (temp) {
@@ -60,6 +60,56 @@ async function loginUser(req, res) {
     }
 }
 
+// async function sendMail(req, res) {
+//     const { email, message } = req.body;
+//     try {
+//         let transporter = nodemailer.createTransport({
+//             service: 'gmail',
+//             auth: {
+//                 user: process.env.EMAIL_USER,
+//                 pass: process.env.EMAIL_PASS,
+//             },
+//         });
+
+//         async function sendMail(req, res) {
+//             const { email, message } = req.body;
+//             try {
+//                 if (!email || !message) {
+//                     return res.status(400).send('Email and message are required.');
+//                 }
+
+//                 let transporter = nodemailer.createTransport({
+//                     service: 'gmail',
+//                     auth: {
+//                         user: process.env.EMAIL_USER, // Use env variables
+//                         pass: process.env.EMAIL_PASS, // Use env variables
+//                     },
+//                 });
+
+//                 let mailOptions = {
+//                     from: process.env.EMAIL_USER, // Sender's email
+//                     to: email,                   // Receiver's email
+//                     subject: "Message to Travel Mate",
+//                     text: message,
+//                 };
+
+//                 transporter.sendMail(mailOptions, (error, info) => {
+//                     if (error) {
+//                         console.error('Error sending email:', error.message);
+//                         return res.status(500).send('Error sending email');
+//                     }
+//                     console.log('Email sent: ' + info.response);
+//                     res.status(200).send('Email sent successfully');
+//                 });
+//             } catch (error) {
+//                 console.error('Unexpected error:', error.message);
+//                 res.status(500).send('Unexpected error occurred');
+//             }
+//         }
+//     } catch (error) {
+//         res.status(500).send('Error sending email', error);
+//     }
+// }
 
 const authControler = {
     showUsers,
