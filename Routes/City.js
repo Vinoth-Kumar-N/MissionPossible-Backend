@@ -19,9 +19,20 @@ router.get('/getCity',async(req,res)=>{
         const Data=await City.find();
         res.status(200).send({message:"Data Recieved successfully!",data:Data});
     } catch (error) {
-        res.status(400).send({message:"Failed to add Data!",error});
+        res.status(400).send({message:"Failed to receive Data!",error});
     }
 });
+
+router.delete('/deleteCity',async(req,res)=>{
+    try {
+        const {_id}=req.body;
+        await City.findByIdAndDelete(_id);
+        res.status(209).send({message:"Data Deleted successfully!"});
+    } catch (error) {
+        res.status(400).send({message:"Failed to delete Data!",error});
+    }
+});
+
 
 
 
