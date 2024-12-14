@@ -18,7 +18,7 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true
     }
-})
+});
 
 userSchema.pre('save', async function(next){
     const user = this;

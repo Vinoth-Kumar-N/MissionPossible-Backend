@@ -11,14 +11,9 @@ db.on('connected' , () => {
 })
 db.on('error', () => {
     console.log('Error connecting to MongoDB');
-})
+});
 
-app.use(cors({
-    origin: 'https://mission-possible-frontend.vercel.app', 
-    // origin: 'http://localhost:5173', 
-    methods: ['GET', 'POST', 'PUT', 'DELETE'],
-    credentials: true
-}));
+app.use(cors());
 
 app.use(express.json());
 
@@ -32,8 +27,9 @@ app.get('/', (req, res) => {
 app.listen(port, () => {
     console.log('Server is running on port http://localhost:' + port);
 })
-
-
+const City=require('./Routes/City');
+const Feature=require('./Routes/Feature');
 app.use('/user', require('./Routes/UserRegRoute'));
-
+app.use('/api/v8',City);
+app.use('/api/v9',Feature);
 
