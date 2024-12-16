@@ -14,10 +14,10 @@ router.post('/addFeature',async(req,res)=>{
 });
 
 
-router.get('/getFeature',async(req,res)=>{
+router.get('/getFeatures',async(req,res)=>{
     try {
         const Data=await Feature.find();
-        res.status(200).send({message:"Data Recieved successfully!",data:Data});
+        res.status(200).send({message:"Data Recieved successfully!",Data});
     } catch (error) {
         res.status(400).send({message:"Failed to add Data!",error});
     }

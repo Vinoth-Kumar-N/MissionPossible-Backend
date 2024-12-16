@@ -16,16 +16,16 @@ router.post('/addCity',async(req,res)=>{
 
 router.get('/getCity',async(req,res)=>{
     try {
-        const Data=await City.find();
-        res.status(200).send({message:"Data Recieved successfully!",data:Data});
+        const data=await City.find();
+        res.status(200).send({message:"Data Recieved successfully!",data});
     } catch (error) {
         res.status(400).send({message:"Failed to receive Data!",error});
     }
 });
 
-router.delete('/deleteCity',async(req,res)=>{
+router.delete('/deleteCity/:id',async(req,res)=>{
     try {
-        const {_id}=req.body;
+        const {_id}=req.params.id;
         await City.findByIdAndDelete(_id);
         res.status(209).send({message:"Data Deleted successfully!"});
     } catch (error) {
