@@ -33,6 +33,15 @@ router.delete('/deleteCity/:id',async(req,res)=>{
     }
 });
 
+router.delete('/deleteAllCity',async(req,res)=>{
+    try {
+        await City.deleteMany();
+        res.status(200).send({message:"Data Deleted successfully!"});
+    } catch (error) {
+        res.status(400).send({message:"Failed to delete Data!",error});
+    }
+});
+
 
 
 

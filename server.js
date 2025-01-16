@@ -15,8 +15,8 @@ db.on('error', () => {
 
 app.use(cors({
     // origin: 'https://mission-possible-frontend.vercel.app', 
-    origin: 'https://mission-possible-frontend-eight.vercel.app', 
-    // origin: 'http://localhost:5173', 
+    // origin: 'https://mission-possible-frontend-eight.vercel.app', 
+    origin: 'http://localhost:5173', 
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     credentials: true
 }));
@@ -36,7 +36,12 @@ app.listen(port, () => {
 
 const City=require('./Routes/City');
 const Feature=require('./Routes/Feature');
+const Hotel = require('./Routes/Hotels');
+const Places = require('./Routes/PLaces');
+
 app.use('/user', require('./Routes/UserRegRoute'));
 app.use('/api/v8',City);
 app.use('/api/v9',Feature);
+app.use('/api/v10',Hotel);
+app.use('/api/v11',Places);
 
